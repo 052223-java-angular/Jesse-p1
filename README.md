@@ -1,39 +1,38 @@
-# P0 - Pair Programming eCommerce Project
+# P1
 
 ## Introduction
 
-This is a Java-based command-line interface (CLI) eCommerce application. The application will be primarily built using Java and will utilize a PostgreSQL database to store product and user information.
+
+The music library management system is a full-stack application that allows users to manage their music collection, search for new music, 
+and create playlists. Users can add songs, and artists to their library, search for music based on criteria, and create playlists. 
+The application will be developed using Spring Boot for the backend and Angular for the frontend.
+
 
 ## User Stories
 
-- **As a user**, I want to register an account so that I can have a personalized shopping experience.
-- **As a user**, I want to log in to my account so that I can access my shopping cart and order history.
-- **As a user**, I want to browse through products only when logging in.
-- **As a user**, I want to search for products by name, category, or price range so that I can find what I'm looking for.
-- **As a user**, I want to add products to my shopping cart so that I can purchase them later.
-- **As a user**, I want to modify the quantity or remove items from my cart so that I can make changes before finalizing the purchase.
-- **As a user**, I want to check out and pay for my order securely so that my personal and financial information is safe.
-- **As a user**, I want to review my order history so that I can keep track of my purchases.
-- **As a user**, I want to rate and review products so that I can share my experience with other users.
-- **As a user**, I want to view ratings and reviews from other users so that I can make informed buying decisions.
-
+- **As a user**, I want to register/login to my account
+- **As a user**, I want to manage my music library add songs, albums, and artists to my library.
+- **As a user**, I want to search for songs or albums based on title, artist, or genre.
+- **As a user**, I want to create and manage playlists by adding or removing songs
+- **As a user**, I want to discuss music on a forum with other users
+- **As a user**, I want to view my profile and presented statistics based on my history
 
 ## MVP (Minimum Viable Product)
 
 - User registration and login
-- Browsing and searching for products
-- Adding products to a shopping cart
-- Modifying the shopping cart
-- Secure payment process
-- Order history
-- Product rating and reviewing
+- Browsing and searching for music
+- Adding music to library
+- Create playlists
+- Modify play lists
+- Profile page with statistics
+- Discuss music with other users
 
 ## Stretch Goals
 
-- Implementing a recommendation system based on user's previous purchases
-- Adding an admin role that can add, remove, or modify products
-- Implementing promotional codes and discounts
-- Adding a wish list feature
+- Ability to discover new music through recommendations based on my listening history.
+- Steam/ control music through connected available devices
+- As a user, I want to view trending songs, popular artists, or top charts.
+- As a user, follow other users and playlists
 
 ## Tech Stacks
 
@@ -45,6 +44,10 @@ This is a Java-based command-line interface (CLI) eCommerce application. The app
 - **JDBC (Java Database Connectivity)**: An API for connecting and executing queries on the database.
 - **BCrypt**: A Java library for hashing and checking passwords for security.
 - **JUnit, Mockito, and PowerMock**: Used for unit and integration testing.
+- **Postman**: Used for unit and integration testing.
+- **Angular**: Develop the frontend using Angular, including components, services, and routing
+- **Public API**: Spotify API
+- **Spring Boot**: Build RESTful APIs using Spring Boot to handle backend operations
 - **Git and GitHub**: Used for version control.
 
 ## Requirements

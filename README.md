@@ -4,7 +4,7 @@
 
 
 The music library management system is a full-stack application that allows users to manage their music collection, search for new music, 
-and create playlists. Users can add songs, and artists to their library, search for music based on criteria, and create playlists. 
+and create playlists. Users can add songs to their library, search for music based on criteria, and create playlists. 
 The application will be developed using Spring Boot for the backend and Angular for the frontend.
 
 

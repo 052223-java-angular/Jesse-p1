@@ -4,27 +4,24 @@
 
 
 The music library management system is a full-stack application that allows users to manage their music collection, search for new music, 
-and create playlists. Users can add songs to their library, search for music based on criteria, and create playlists. 
+and create playlists. Users can create forum posts to interact with other users, search for music based on certain criteria, and create playlists. 
 The application will be developed using Spring Boot for the backend and Angular for the frontend.
 
 
 ## User Stories
 
-- **As a user**, I want to register/login to my account
-- **As a user**, I want to manage my music library add songs, albums, and artists to my library.
-- **As a user**, I want to search for songs or albums based on title, artist, or genre.
+- **As a user**, I want to register/login an account
+- **As a user**, I want to search for songs based on title, artist, or genre.
 - **As a user**, I want to create and manage playlists by adding or removing songs
 - **As a user**, I want to discuss music on a forum with other users
-- **As a user**, I want to view my profile and presented statistics based on my history
+- **As a user**, I want to post on other users threads
 
 ## MVP (Minimum Viable Product)
 
 - User registration and login
-- Browsing and searching for music
-- Adding music to library
+- Searching for music
 - Create playlists
-- Modify play lists
-- Profile page with statistics
+- Modify playlists
 - Discuss music with other users
 
 ## Stretch Goals
@@ -32,7 +29,7 @@ The application will be developed using Spring Boot for the backend and Angular 
 - Ability to discover new music through recommendations based on my listening history.
 - Steam/ control music through connected available devices
 - As a user, I want to view trending songs, popular artists, or top charts.
-- As a user, follow other users and playlists
+- User statistics
 
 ## Tech Stacks
 

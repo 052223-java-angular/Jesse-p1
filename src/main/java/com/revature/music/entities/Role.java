@@ -12,21 +12,20 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-
+/**
+ * Entity for  a role
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table (name = "roles")
-/**
- * Role entity
- */
 public class Role {
 
-    //private static final Logger logger = LogManager.getLogger(Role.class);
     @Id
     private String id;
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -34,6 +33,10 @@ public class Role {
     @JsonManagedReference
     private Set<User> users;
 
+    /**
+     * Constructor to create an instance of a role
+     * @param name - the name of the role
+     */
     public Role(String name)
     {
         this.id = UUID.randomUUID().toString();

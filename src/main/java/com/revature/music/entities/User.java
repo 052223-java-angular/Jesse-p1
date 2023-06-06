@@ -16,8 +16,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
-
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -54,4 +55,27 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<Playlist> playlists;
+
+    /**
+     * Constructor to create a user
+     * @param username - username
+     * @param password- password
+     * @param role - role
+     * @param firstName - firstname
+     * @param lastName- lastname
+     * @param email - email
+     */
+    public User(String username, String password, Role role, String firstName, String lastName, String email)
+    {
+        this.id = UUID.randomUUID().toString();
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.forumThreads = new HashSet<>();
+        this.forumPosts = new HashSet<>();
+        this.playlists = new HashSet<>();
+    }
 }

@@ -27,7 +27,6 @@ The application will be developed using Spring Boot for the backend and Angular 
 ## Stretch Goals
 
 - Ability to discover new music through recommendations based on my listening history.
-- Steam/ control music through connected available devices
 - As a user, I want to view trending songs, popular artists, or top charts.
 - User statistics
 

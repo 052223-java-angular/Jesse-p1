@@ -33,10 +33,10 @@ public class User {
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(nullable = false)
-    private String firstName;
-    private String lastName;
-    private String email;
+    //@Column(nullable = false)
+    //private String firstName;
+    //private String lastName;
+    //private String email;
 
 
     @ManyToOne
@@ -65,15 +65,15 @@ public class User {
      * @param lastName- lastname
      * @param email - email
      */
-    public User(String username, String password, Role role, String firstName, String lastName, String email)
+    public User(String username, String password, Role role)//, String firstName, String lastName, String email)
     {
         this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
         this.role = role;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+      //  this.firstName = firstName;
+        //this.lastName = lastName;
+        //this.email = email;
         this.forumThreads = new HashSet<>();
         this.forumPosts = new HashSet<>();
         this.playlists = new HashSet<>();

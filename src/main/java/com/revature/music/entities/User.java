@@ -61,19 +61,13 @@ public class User {
      * @param username - username
      * @param password- password
      * @param role - role
-     * @param firstName - firstname
-     * @param lastName- lastname
-     * @param email - email
      */
-    public User(String username, String password, Role role)//, String firstName, String lastName, String email)
+    public User(String username, String password, Role role)
     {
         this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
         this.role = role;
-      //  this.firstName = firstName;
-        //this.lastName = lastName;
-        //this.email = email;
         this.forumThreads = new HashSet<>();
         this.forumPosts = new HashSet<>();
         this.playlists = new HashSet<>();

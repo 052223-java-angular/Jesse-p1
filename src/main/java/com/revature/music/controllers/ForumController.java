@@ -29,9 +29,16 @@ public class ForumController {
     @PostMapping("/create")
     public ResponseEntity<?>createThread(@RequestBody NewThreadRequest req)
     {
+        //Create Title must be at least 8 ( max 30 ?)characters validation
+
+        //Cant be blank Title
+
+        // Create Description must be at least 15 characters
+
+        //Is this right im not sure if this is the right thing to do
         String userId = tokenService.extractUserId(req.getToken());
 
-        forumService.createThread(req,userId);
+        forumService.createThread(req,userId);// Creates a new thread associated with user
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -56,9 +63,13 @@ public class ForumController {
     @PostMapping("/comment")
     public ResponseEntity<?>postComment(@RequestBody NewForumComment req)
     {
-        String userId = tokenService.extractUserId(req.getToken());
+        //Cant be empty comment validation
+
+        String userId = tokenService.extractUserId(req.getToken());// user id associated with comment on thread
+
         //Thread Id needs to passed in for the user to comment on a specific thread
-        String forumId = forumService.getThreadId();
+
+        String forumId = forumService.getThreadId();//need to get the thread id that the user wants to comment on
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -68,7 +68,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = role;
-        this.forumThreads = new HashSet<>();
+        this.forumThreads = new HashSet<>();//Why are we doing a hashset here,Look into this
         this.forumPosts = new HashSet<>();
         this.playlists = new HashSet<>();
     }

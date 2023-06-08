@@ -19,8 +19,8 @@ public class ForumService {
 
     public ForumThread createThread(NewThreadRequest req, String id) {
 
-        User exitingUser = userService.findUserById(id).get();
-        ForumThread newThread = new ForumThread(req.getTitle(), req.getDescription(), exitingUser);
+        User existingUser = userService.findUserById(id).get();
+        ForumThread newThread = new ForumThread(req.getTitle(), req.getDescription(), existingUser);
 
         return forumThreadRepository.save(newThread);
     }

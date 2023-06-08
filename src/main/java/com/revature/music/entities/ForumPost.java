@@ -1,6 +1,6 @@
 package com.revature.music.entities;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.UUID;
 
 
 @AllArgsConstructor
@@ -35,4 +36,13 @@ public class ForumPost {
     @JoinColumn(name = "forumThread_id")
     @JsonBackReference
     private ForumThread forumThread;
+
+    public ForumPost(String content, User user, ForumThread forumThread)
+    {
+        this.id = UUID.randomUUID().toString();
+        this.content = content;
+        this.creationDate = new Date();
+        this.user = user;
+        this.forumThread = forumThread;
+    }
 }

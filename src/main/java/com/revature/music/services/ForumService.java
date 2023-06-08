@@ -1,8 +1,11 @@
 package com.revature.music.services;
 
+import com.revature.music.dtos.requests.NewForumComment;
 import com.revature.music.dtos.requests.NewThreadRequest;
+import com.revature.music.entities.ForumPost;
 import com.revature.music.entities.ForumThread;
 import com.revature.music.entities.User;
+import com.revature.music.repositories.ForumPostRepository;
 import com.revature.music.repositories.ForumThreadRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import java.util.List;
 public class ForumService {
 
     private final ForumThreadRepository forumThreadRepository;
+    private final ForumPostRepository forumPostRepository;
     private final UserService userService;
 
 
@@ -37,5 +41,13 @@ public class ForumService {
     public List<ForumThread> getAllThreads()
     {
         return forumThreadRepository.findAll();
+    }
+
+    public ForumPost postCommenToThread(NewForumComment req, String userId)
+    {
+        User foundUser = userService.findUserById(userId).get();
+        ForumThread foundThread = forumThreadRepository.findById(req.getThreadId()).get();
+        ForumPost newForumPost = new ForumPost(req.getContent(),foundUser, foundThread);
+       return forumPostRepository.save(newForumPost);
     }
 }

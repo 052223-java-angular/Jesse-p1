@@ -26,12 +26,13 @@ public class PlaylistService {
     }
 
     /**
-     *
-     * @param userId
-     * @return
+     * Gets playlists associated with userid
+     * @param userId - the userid
+     * @return - All the playlist associated with the userid
      */
     public List<Playlist> getAllPlaylists(String userId)
     {
+        //validate if user created a playlist
 
         return playlistRepository.findByUserId(userId);
     }

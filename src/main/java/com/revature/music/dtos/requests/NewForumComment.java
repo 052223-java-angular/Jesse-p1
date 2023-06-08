@@ -11,7 +11,8 @@ import lombok.Setter;
 @Setter
 public class NewForumComment {
 
-    String content;
-    String token;
+    private String content;
+    private String threadId;// Not sure if this is right how would it get passed into here
+    private String token;
 
 }

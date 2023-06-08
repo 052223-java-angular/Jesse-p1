@@ -69,8 +69,8 @@ public class ForumController {
 
         //Thread Id needs to passed in for the user to comment on a specific thread
 
-        String forumId = forumService.getThreadId();//need to get the thread id that the user wants to comment on
-
+       // String forumId = forumService.getThreadId(req.getThreadId());//need to get the thread id that the user wants to comment on
+        forumService.postCommenToThread(req, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

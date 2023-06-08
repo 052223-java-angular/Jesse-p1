@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ForumPostRepository extends JpaRepository <ForumPost,String>{
+
+    //savePostByThreadAndUserId()
 }

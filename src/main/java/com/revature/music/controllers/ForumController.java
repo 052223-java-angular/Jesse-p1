@@ -6,6 +6,7 @@ import com.revature.music.entities.ForumThread;
 import com.revature.music.services.ForumService;
 import com.revature.music.services.JwtTokenService;
 import com.revature.music.services.UserService;
+import com.revature.music.utils.InvalidTokenException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +32,18 @@ public class ForumController {
     {
         //Create Title must be at least 8 ( max 30 ?)characters validation
 
+
         //Cant be blank Title
 
         // Create Description must be at least 15 characters
 
-        //Is this right im not sure if this is the right thing to do
+        //Extract userid via token
         String userId = tokenService.extractUserId(req.getToken());
+
+        // validate token if token is valid
+        if (userId == null || userId.isEmpty()) {
+            throw new InvalidTokenException("Token is not valid!");
+        }
 
         forumService.createThread(req,userId);// Creates a new thread associated with user
 
@@ -56,6 +63,8 @@ public class ForumController {
 
 
     /**
+     * Expired token was only thrown on this method and not any other ???
+     *
      * How would the user pick which thread they are commenting on the thread id needs to be passed in
      * @param req
      * @return
@@ -66,16 +75,15 @@ public class ForumController {
         //Cant be empty comment validation
 
         String userId = tokenService.extractUserId(req.getToken());// user id associated with comment on thread
-
+        // validate token if token is valid
+        if (userId == null || userId.isEmpty()) {
+            throw new InvalidTokenException("Token is not valid!");
+        }
         //Thread Id needs to passed in for the user to comment on a specific thread
 
-       // String forumId = forumService.getThreadId(req.getThreadId());//need to get the thread id that the user wants to comment on
-        forumService.postCommenToThread(req, userId);
+
+        forumService.postCommentToThread(req, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-
-
-
 
 }

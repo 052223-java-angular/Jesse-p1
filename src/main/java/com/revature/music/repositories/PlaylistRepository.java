@@ -14,4 +14,9 @@ public interface PlaylistRepository extends JpaRepository<Playlist,String> {
      * @return - playlists of the user
      */
     List<Playlist> findByUserId(String userId);
+
+    //Did not work
+   //Playlist deleteByIdAndUserId(String playlistId, String userId);
+
+    void deleteById(String playlistId);
 }

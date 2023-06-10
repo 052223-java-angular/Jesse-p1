@@ -16,8 +16,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table (name = "forumPosts")
-public class ForumPost {
+@Table (name = "forumComments")
+public class ForumComment {
     @Id
     private String id;
 
@@ -37,7 +37,7 @@ public class ForumPost {
     @JsonBackReference
     private ForumThread forumThread;
 
-    public ForumPost(String content, User user, ForumThread forumThread)
+    public ForumComment(String content, User user, ForumThread forumThread)
     {
         this.id = UUID.randomUUID().toString();
         this.content = content;

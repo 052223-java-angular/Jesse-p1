@@ -18,7 +18,7 @@ public class ArtistService {
      *
      * @param firstname
      * @param lastname
-     * @param genre
+     * @param genreName
      */
     public void createSong(String firstname, String lastname, String genreName)
     {

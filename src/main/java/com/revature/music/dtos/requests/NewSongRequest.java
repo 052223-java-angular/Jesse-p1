@@ -13,6 +13,7 @@ public class NewSongRequest {
     private String title;
     private float duration;
     private String genreName;
-    private String artistName;
+    private String firstName;
+    private String lastName;
 
 }

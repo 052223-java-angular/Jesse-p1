@@ -19,7 +19,7 @@ public class SongController {
     @PostMapping("/create")
     public ResponseEntity<?>createSong(@RequestBody NewSongRequest req)
     {
-        songService.createSong(req.getTitle(),req.getDuration(),req.getArtistName(),req.getGenreName());
+        songService.createSong(req.getTitle(),req.getDuration(),req.getFirstName(),req.getLastName(),req.getGenreName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }

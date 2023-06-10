@@ -24,10 +24,10 @@ public class SongService {
      * @param artist
      * @param genre
      */
-    public void createSong(String title, float duration, String artistName, String genreName)
+    public void createSong(String title, float duration, String fname, String lname , String genreName)
     { //validate that these are in DB if not create
        Genre genre = genreRepository.findByName(genreName);
-       Artist artist = artistRepository.findByName(artistName);
+       Artist artist = artistRepository.findByFirstName(fname);
 
        Song song = new Song(title, duration, artist, genre);
        songRepository.save(song);

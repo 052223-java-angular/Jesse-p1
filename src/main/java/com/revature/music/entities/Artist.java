@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,4 +35,12 @@ public class Artist {
     @JsonManagedReference
     private Set<Song> songs;
 
+    public Artist(String firstName, String lastName, Genre genre)
+    {
+        this.id = UUID.randomUUID().toString();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.genre = genre;
+        this.songs = new HashSet<>();
+    }
 }

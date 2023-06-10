@@ -1,6 +1,5 @@
 package com.revature.music.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,4 +32,11 @@ public class Genre {
     @JsonManagedReference
     private Set<Artist> artists;
 
+    public Genre (String name)
+    {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.artists = new HashSet<>();
+        this.songs = new HashSet<>();
+    }
 }

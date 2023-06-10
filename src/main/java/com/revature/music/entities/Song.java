@@ -8,7 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,4 +39,14 @@ public class Song {
     @JoinColumn(name = "artist_id")
     @JsonBackReference
     private Artist artist;
+
+    public Song(String title, float duration, Artist artist, Genre genre)
+    {
+       this.id = UUID.randomUUID().toString();
+       this.title = title;
+       this.duration = duration;
+       this.artist = artist;
+       this.genre = genre;
+       this.playlistsSongs = new HashSet<>();
+    }
 }

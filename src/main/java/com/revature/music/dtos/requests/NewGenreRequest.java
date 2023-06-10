@@ -9,10 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class NewSongRequest {
-    private String title;
-    private float duration;
-    private String genreName;
-    private String artistName;
-
+public class NewGenreRequest {
+    private String name;
 }

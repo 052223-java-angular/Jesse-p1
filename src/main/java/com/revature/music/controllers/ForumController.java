@@ -5,8 +5,9 @@ import com.revature.music.dtos.requests.NewThreadRequest;
 import com.revature.music.entities.ForumThread;
 import com.revature.music.services.ForumService;
 import com.revature.music.services.JwtTokenService;
-import com.revature.music.services.UserService;
+import com.revature.music.services.StringValidationService;
 import com.revature.music.utils.InvalidTokenException;
+import com.revature.music.utils.ResourceConflictException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequestMapping("/forum")
 public class ForumController {
     private final ForumService forumService;
-    private final UserService userService;
+    private final StringValidationService stringValidationService;
     private final JwtTokenService tokenService;
 
     /**
@@ -30,12 +31,22 @@ public class ForumController {
     @PostMapping("/create")
     public ResponseEntity<?>createThread(@RequestBody NewThreadRequest req)
     {
+      //Cant be blank Title
+      if(!stringValidationService.isBlank(req.getTitle()))
+      {
+        throw new ResourceConflictException("Title can't be blank!");
+      }
         //Create Title must be at least 8 ( max 30 ?)characters validation
-
-
-        //Cant be blank Title
+        if (!stringValidationService.checkLength(req.getTitle(), 8,30))
+      {
+        throw new ResourceConflictException("Title must have between 8 and 30 characters!");
+      }
 
         // Create Description must be at least 15 characters
+      if (!stringValidationService.checkLengthMin(req.getDescription(), 15))
+      {
+        throw new ResourceConflictException("Description must be 15 characters!");
+      }
 
         //Extract userid via token
         String userId = tokenService.extractUserId(req.getToken());
@@ -73,6 +84,10 @@ public class ForumController {
     public ResponseEntity<?>postComment(@RequestBody NewForumComment req)
     {
         //Cant be empty comment validation
+      if(!stringValidationService.isBlank(req.getContent()))
+      {
+        throw new ResourceConflictException("Comment can't be blank!");
+      }
 
         String userId = tokenService.extractUserId(req.getToken());// user id associated with comment on thread
         // validate token if token is valid

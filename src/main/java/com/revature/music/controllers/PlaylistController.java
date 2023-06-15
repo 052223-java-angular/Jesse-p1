@@ -6,7 +6,9 @@ import com.revature.music.dtos.requests.NewPlaylistRequest;
 import com.revature.music.entities.Playlist;
 import com.revature.music.services.JwtTokenService;
 import com.revature.music.services.PlaylistService;
+import com.revature.music.services.StringValidationService;
 import com.revature.music.utils.InvalidTokenException;
+import com.revature.music.utils.ResourceConflictException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.List;
 public class PlaylistController {
     private final JwtTokenService tokenService;
     private final PlaylistService playlistService;
+    private final StringValidationService stringValidationService;
 
     /**
      * Creates a new playlist where users can add songs
@@ -30,7 +33,16 @@ public class PlaylistController {
     public ResponseEntity<?> createPlayList(@RequestBody NewPlaylistRequest req)
     {
         //validation for title cant be empty
+      if(!stringValidationService.isBlank(req.getTitle()))
+      {
+        throw new ResourceConflictException("Title can't be blank!");
+      }
+
         //Validation for title for certain number of characters
+      if (!stringValidationService.checkLengthMin(req.getDescription(), 1))
+      {
+        throw new ResourceConflictException("Title can't be blank!");
+      }
 
         String userId = tokenService.extractUserId(req.getToken());
         // validate token if token is valid

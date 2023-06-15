@@ -1,5 +1,6 @@
 package com.revature.music.services;
 
+import com.revature.music.dtos.requests.DeleteForumThread;
 import com.revature.music.dtos.requests.NewForumComment;
 import com.revature.music.dtos.requests.NewThreadRequest;
 import com.revature.music.entities.ForumComment;
@@ -19,7 +20,7 @@ import java.util.List;
 public class ForumService {
     private static final Logger logger = LogManager.getLogger(ForumService.class);
     private final ForumThreadRepository forumThreadRepository;
-    private final ForumCommentRepository forumPostRepository;
+    private final ForumCommentRepository forumCommentRepository;
     private final UserService userService;
 
     /**
@@ -32,7 +33,7 @@ public class ForumService {
 
         User existingUser = userService.findUserById(id).get();
         ForumThread newThread = new ForumThread(req.getTitle(), req.getDescription(), existingUser);
-
+        logger.info( existingUser.getUsername() + ": creating a new thread: " + newThread.getId());
         return forumThreadRepository.save(newThread);
     }
 
@@ -41,6 +42,17 @@ public class ForumService {
     {
         return forumThreadRepository.findAll();
     }
+
+  /**
+   * Deletes a specific forum thread by id
+   * @param req
+   */
+  public void deleteForumThread(DeleteForumThread req) {
+      forumThreadRepository.deleteById(req.getForumthreadId());
+  }
+
+
+    //<----------Forum Comment methods--------->\\
 
     /**
      * Users can post a comment to a specific thread. The way it is setup right now the
@@ -54,9 +66,13 @@ public class ForumService {
         User foundUser = userService.findUserById(userId).get();
         ForumThread foundThread = forumThreadRepository.findById(req.getThreadId()).get();
         ForumComment newForumPost = new ForumComment(req.getContent(),foundUser, foundThread);
-        logger.info("test");
-       return forumPostRepository.save(newForumPost);
+      logger.info( foundUser.getUsername() + ": Posting a comment: " + newForumPost.getContent() + "to thread :" + foundThread.getId());
+       return forumCommentRepository.save(newForumPost);
     }
 
 
+
+  //public List<ForumComment> getThreadAllComments(String threadId) {
+    //return forumCommentRepository.findByThreadId(threadId);
+  //}
 }

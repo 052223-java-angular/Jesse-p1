@@ -31,11 +31,7 @@ public class PlaylistService {
 
         return playlistRepository.save(newPlaylist);
     }
-//This did not work when passing the playlist id and user id
-   /* public Playlist deletePlaylist(DeletePlaylistRequest req, String userId) {
-        User existingUser = userService.findUserById(userId).get();
-        return playlistRepository.deleteByIdAndUserId(req.getPlaylistId(), userId);
-    }*/
+
 
     /**
      * Delete a specific play list

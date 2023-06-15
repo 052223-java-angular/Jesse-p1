@@ -20,12 +20,12 @@ public class ArtistService {
      * @param lastname
      * @param genreName
      */
-    public void createSong(String firstname, String lastname, String genreName)
+    public void createSong(String firstname, String genreName)
     {
         //validate genre exists if not create
         Genre genre = genreRepository.findByName(genreName);
 
-        Artist artist = new Artist(firstname, lastname, genre);
+        Artist artist = new Artist(firstname, genre);
         artistRepository.save(artist);
     }
 }

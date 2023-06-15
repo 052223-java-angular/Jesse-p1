@@ -25,7 +25,7 @@ public class PlaylistController {
     private final StringValidationService stringValidationService;
 
     /**
-     * Creates a new playlist where users can add songs
+     * Creates a new playlist where users can add songs into
      * @param req- token, title, description
      * @return - new play list for the user
      */

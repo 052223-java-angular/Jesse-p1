@@ -9,10 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class NewSongRequest {
-    private String title;
-    private float duration;
-    private String genreName;
-    private String name;
+public class DeleteForumThread {
 
+  private String forumthreadId;
+  private String token;
 }

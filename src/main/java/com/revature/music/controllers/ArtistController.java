@@ -17,6 +17,7 @@ public class ArtistController {
 
     private ArtistService artistService;
 
+
     /**
      * Probably have to change once front end is built
      * Creates an artist
@@ -26,7 +27,7 @@ public class ArtistController {
     @PostMapping("/create")
     public ResponseEntity<?>createArtist(@RequestBody NewArtistRequest req)
     {
-        artistService.createSong(req.getFirstName(), req.getLastName(), req.getGenreName());
+        artistService.createSong(req.getName(), req.getGenreName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }

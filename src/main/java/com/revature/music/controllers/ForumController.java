@@ -1,5 +1,6 @@
 package com.revature.music.controllers;
 
+import com.revature.music.dtos.requests.DeleteForumThread;
 import com.revature.music.dtos.requests.NewForumComment;
 import com.revature.music.dtos.requests.NewThreadRequest;
 import com.revature.music.entities.ForumThread;
@@ -61,6 +62,27 @@ public class ForumController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+  /**
+   * Deletes a specific forum thread by id
+   * @param req
+   * @return
+   */
+  @DeleteMapping("/delete")
+  public ResponseEntity<?> deleteForumThread(@RequestBody DeleteForumThread req)
+  {
+    String userId = tokenService.extractUserId(req.getToken());
+    // validate token if token is valid
+    if (userId == null || userId.isEmpty()) {
+      throw new InvalidTokenException("Token is not valid!");
+    }
+
+    //validate the forum exists
+
+    forumService.deleteForumThread(req);
+
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+
     /**
      * This method returns all thread posts made by any user
      * @return- All threads created by any user
@@ -71,11 +93,9 @@ public class ForumController {
         return ResponseEntity.status(HttpStatus.OK).body(forumService.getAllThreads());
     }
 
-
+//<----------ForumComment----------->
 
     /**
-     * Expired token was only thrown on this method and not any other ???
-     *
      * How would the user pick which thread they are commenting on the thread id needs to be passed in
      * @param req
      * @return
@@ -100,5 +120,13 @@ public class ForumController {
         forumService.postCommentToThread(req, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    //this is breaking my code
+  //@GetMapping("/thread/{threadId}/comments")
+    //public ResponseEntity<List<ForumComment>> getThreadAllComments(@PathVariable String threadId)
+  //{
+    //List<ForumComment> comments = forumService.getThreadAllComments(threadId);
+    //return ResponseEntity.status(HttpStatus.OK).body(comments);
+  //}
 
 }

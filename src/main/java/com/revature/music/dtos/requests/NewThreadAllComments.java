@@ -7,12 +7,9 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
-public class NewSongRequest {
-    private String title;
-    private float duration;
-    private String genreName;
-    private String name;
+@Getter
+public class NewThreadAllComments {
 
+  String threadId;
 }

@@ -23,8 +23,8 @@ public class Artist {
     @Id
     private String id;
     @Column(nullable = false)
-    private String firstName;
-    private String lastName;
+    private String name;
+
 
     @ManyToOne
     @JoinColumn(name = "genre_id")
@@ -35,11 +35,10 @@ public class Artist {
     @JsonManagedReference
     private Set<Song> songs;
 
-    public Artist(String firstName, String lastName, Genre genre)
+    public Artist(String name, Genre genre)
     {
         this.id = UUID.randomUUID().toString();
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.genre = genre;
         this.songs = new HashSet<>();
     }

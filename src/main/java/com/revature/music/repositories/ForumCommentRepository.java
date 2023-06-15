@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ForumCommentRepository extends JpaRepository <ForumComment,String>{
 
-    //savePostByThreadAndUserId()
+  //List<ForumComment> findByThreadId(String threadId);
+
+  //List<ForumComment> findByForumThread_IdAndUser_Id(String threadId, String userId);
 }

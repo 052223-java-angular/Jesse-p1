@@ -7,10 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class StringValidationService {
 
-  public Boolean checkLength(String check, Integer min, Integer max)
-  {
-    if (check.length() > max && check.length()<min)
-    {
+  public Boolean checkLength(String check, Integer min, Integer max) {
+    if (check.length() < min || check.length() > max) {
       return false;
     }
     return true;

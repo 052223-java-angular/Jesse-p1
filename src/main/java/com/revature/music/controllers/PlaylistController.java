@@ -33,13 +33,13 @@ public class PlaylistController {
     public ResponseEntity<?> createPlayList(@RequestBody NewPlaylistRequest req)
     {
         //validation for title cant be empty
-      if(!stringValidationService.isBlank(req.getTitle()))
+      if(stringValidationService.isBlank(req.getTitle()))
       {
         throw new ResourceConflictException("Title can't be blank!");
       }
 
         //Validation for title for certain number of characters
-      if (!stringValidationService.checkLengthMin(req.getDescription(), 1))
+      if (!stringValidationService.checkLengthMin(req.getTitle(), 1))
       {
         throw new ResourceConflictException("Title can't be blank!");
       }

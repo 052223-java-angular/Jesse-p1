@@ -32,14 +32,14 @@ public class ForumController {
     public ResponseEntity<?>createThread(@RequestBody NewThreadRequest req)
     {
       //Cant be blank Title
-      if(!stringValidationService.isBlank(req.getTitle()))
+      if(stringValidationService.isBlank(req.getTitle()))
       {
         throw new ResourceConflictException("Title can't be blank!");
       }
         //Create Title must be at least 8 ( max 30 ?)characters validation
-        if (!stringValidationService.checkLength(req.getTitle(), 8,30))
+        if (!stringValidationService.checkLength(req.getTitle(), 5,30))
       {
-        throw new ResourceConflictException("Title must have between 8 and 30 characters!");
+        throw new ResourceConflictException("Title must have between 5 and 30 characters!");
       }
 
         // Create Description must be at least 15 characters
@@ -84,7 +84,7 @@ public class ForumController {
     public ResponseEntity<?>postComment(@RequestBody NewForumComment req)
     {
         //Cant be empty comment validation
-      if(!stringValidationService.isBlank(req.getContent()))
+      if(stringValidationService.isBlank(req.getContent()))
       {
         throw new ResourceConflictException("Comment can't be blank!");
       }

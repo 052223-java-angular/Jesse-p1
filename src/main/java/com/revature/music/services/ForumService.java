@@ -8,6 +8,7 @@ import com.revature.music.entities.ForumThread;
 import com.revature.music.entities.User;
 import com.revature.music.repositories.ForumCommentRepository;
 import com.revature.music.repositories.ForumThreadRepository;
+import com.revature.music.utils.ForumThreadNotFoundException;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,9 +71,13 @@ public class ForumService {
        return forumCommentRepository.save(newForumPost);
     }
 
+    public ForumThread findById(String forumId) {
+      return forumThreadRepository.findById(forumId)
+        .orElseThrow(() -> new ForumThreadNotFoundException("Forum Thread Not found"));
+    }
 
 
-  //public List<ForumComment> getThreadAllComments(String threadId) {
+    //public List<ForumComment> getThreadAllComments(String threadId) {
     //return forumCommentRepository.findByThreadId(threadId);
   //}
 }

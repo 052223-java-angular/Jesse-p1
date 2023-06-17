@@ -1,7 +1,6 @@
 package com.revature.music.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,9 +24,9 @@ public class Playlist {
     private String title;
     private String description;
 
-    @OneToMany(mappedBy = "playlist", fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private Set<PlaylistSong> playlistSongs;
+    @ManyToMany
+    @JoinTable(name = "song_id")
+    private Set<Song> songs;
 
 
     @ManyToOne
@@ -42,7 +41,7 @@ public class Playlist {
         this.title = title;
         this.description = description;
         this.user = user;
-        this.playlistSongs = new HashSet<>();
+        this.songs = new HashSet<>();
     }
 
 }

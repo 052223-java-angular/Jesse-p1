@@ -4,6 +4,7 @@ import com.revature.music.dtos.requests.DeleteForumThread;
 import com.revature.music.dtos.requests.NewForumComment;
 import com.revature.music.dtos.requests.NewThreadRequest;
 import com.revature.music.entities.ForumThread;
+import com.revature.music.entities.Playlist;
 import com.revature.music.services.ForumService;
 import com.revature.music.services.JwtTokenService;
 import com.revature.music.services.StringValidationService;
@@ -120,6 +121,13 @@ public class ForumController {
         forumService.postCommentToThread(req, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+  @GetMapping("/get/{forumId}")
+  public ResponseEntity<ForumThread> getPlaylistById(@PathVariable String forumId) {
+
+
+    return ResponseEntity.status(HttpStatus.OK).body(forumService.findById(forumId));
+  }
 
     //this is breaking my code
   //@GetMapping("/thread/{threadId}/comments")

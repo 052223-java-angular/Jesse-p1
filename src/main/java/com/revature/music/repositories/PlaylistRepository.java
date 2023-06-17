@@ -19,4 +19,6 @@ public interface PlaylistRepository extends JpaRepository<Playlist,String> {
    //Playlist deleteByIdAndUserId(String playlistId, String userId);
 
     void deleteById(String playlistId);
+
+  //void getUserId(String );
 }

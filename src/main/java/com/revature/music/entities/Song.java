@@ -1,15 +1,12 @@
 package com.revature.music.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -17,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "Songs")
+@Table(name = "songs")
 public class Song {
 
     @Id
@@ -26,9 +23,7 @@ public class Song {
     private String title;
     private float duration;
 
-    @OneToMany(mappedBy = "song", fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private Set<PlaylistSong> playlistsSongs;
+
 
     @ManyToOne()
     @JoinColumn(name = "genre_id")
@@ -47,6 +42,6 @@ public class Song {
        this.duration = duration;
        this.artist = artist;
        this.genre = genre;
-       this.playlistsSongs = new HashSet<>();
+
     }
 }

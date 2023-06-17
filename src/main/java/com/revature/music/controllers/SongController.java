@@ -1,6 +1,7 @@
 package com.revature.music.controllers;
 
 import com.revature.music.dtos.requests.NewSongRequest;
+import com.revature.music.repositories.SongRepository;
 import com.revature.music.services.SongService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SongController {
 
     private SongService songService;
+    private SongRepository songRepository;
     @PostMapping("/create")
     public ResponseEntity<?>createSong(@RequestBody NewSongRequest req)
     {
@@ -23,5 +25,6 @@ public class SongController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
+
 
 }

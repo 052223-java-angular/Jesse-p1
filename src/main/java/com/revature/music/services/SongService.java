@@ -6,6 +6,7 @@ import com.revature.music.entities.Song;
 import com.revature.music.repositories.ArtistRepository;
 import com.revature.music.repositories.GenreRepository;
 import com.revature.music.repositories.SongRepository;
+import com.revature.music.utils.SongNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,11 @@ public class SongService {
 
        Song song = new Song(title, duration, artist, genre);
        songRepository.save(song);
+    }
+
+    public Song getSongById(String songId)
+    {
+      return songRepository.findById(songId)
+        .orElseThrow(()-> new SongNotFoundException("Song does not exist!"));
     }
 }

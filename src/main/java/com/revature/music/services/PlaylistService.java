@@ -1,14 +1,18 @@
 package com.revature.music.services;
 
+import com.revature.music.dtos.requests.AddSongToPlaylist;
 import com.revature.music.dtos.requests.DeletePlaylistRequest;
 import com.revature.music.dtos.requests.NewPlaylistRequest;
 import com.revature.music.entities.Playlist;
+import com.revature.music.entities.Song;
 import com.revature.music.entities.User;
 import com.revature.music.repositories.PlaylistRepository;
+import com.revature.music.utils.PlaylistNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -16,6 +20,7 @@ public class PlaylistService {
 
     private PlaylistRepository playlistRepository;
     private final UserService userService;
+    private final SongService songService;
 
     /**
      * A user can create a playlist
@@ -52,5 +57,53 @@ public class PlaylistService {
         //validate if user created a playlist
 
         return playlistRepository.findByUserId(userId);
+
     }
+
+
+    /*
+     * Finds a specific playlist by user
+     */
+    public Playlist findById(String playlistId)
+    {
+      return playlistRepository.findById(playlistId)
+        .orElseThrow(() -> new PlaylistNotFoundException("PlayList Not found"));
+    }
+
+  /**
+   * Updates an existing playlist
+   * @param playlistId - the playlist id that needs to modified
+   * @param playlist - the playlist object
+   * @return - an exception if the playlist isn't found or an updated playlist
+   */
+    public Playlist updatePlaylist (String playlistId, NewPlaylistRequest req , String userId)
+    {
+
+      if (!playlistRepository.existsById(playlistId)) {
+         throw new PlaylistNotFoundException("No playlist found");
+      }
+
+      User user = userService.findUserById(userId).get();
+
+      Playlist playlist = new Playlist(req.getTitle(), req.getDescription(), user);
+      playlist.setId(playlistId);
+
+      return playlistRepository.save(playlist);
+    }
+
+  public Playlist addSongToPlaylist(AddSongToPlaylist req)
+  {
+    Song song = songService.getSongById(req.getSongId());
+
+    Playlist playlist = playlistRepository.findById(req.getPlaylistId()).get();
+
+    Set<Song> songs = playlist.getSongs();
+    songs.add(song);
+
+    playlist.setSongs(songs);
+
+      return playlistRepository.save(playlist);
+
+  }
+
 }

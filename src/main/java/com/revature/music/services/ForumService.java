@@ -1,5 +1,6 @@
 package com.revature.music.services;
 
+import com.revature.music.dtos.requests.DeleteForumComment;
 import com.revature.music.dtos.requests.DeleteForumThread;
 import com.revature.music.dtos.requests.NewForumComment;
 import com.revature.music.dtos.requests.NewThreadRequest;
@@ -9,6 +10,7 @@ import com.revature.music.entities.User;
 import com.revature.music.repositories.ForumCommentRepository;
 import com.revature.music.repositories.ForumThreadRepository;
 import com.revature.music.utils.ForumThreadNotFoundException;
+import com.revature.music.utils.PlaylistNotFoundException;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,8 +40,11 @@ public class ForumService {
         return forumThreadRepository.save(newThread);
     }
 
-
-    public List<ForumThread> getAllThreads()
+  /**
+   * Returns all the forum threads posted by users
+   * @return
+   */
+  public List<ForumThread> getAllThreads()
     {
         return forumThreadRepository.findAll();
     }
@@ -52,8 +57,25 @@ public class ForumService {
       forumThreadRepository.deleteById(req.getForumthreadId());
   }
 
+  public ForumThread findById(String forumId) {
+    return forumThreadRepository.findById(forumId)
+      .orElseThrow(() -> new ForumThreadNotFoundException("Forum Thread Not found"));
+  }
 
-    //<----------Forum Comment methods--------->\\
+  public ForumThread updateFormThread(String threadId, NewThreadRequest req, String userId) {
+    if (!forumThreadRepository.existsById(threadId)) {
+      throw new PlaylistNotFoundException("No playlist found");
+    }
+
+    User user = userService.findUserById(userId).get();
+
+    ForumThread forumThread = new ForumThread(req.getTitle(), req.getDescription(), user);
+    forumThread.setId(threadId);
+
+    return forumThreadRepository.save(forumThread);
+  }
+
+    //<===================================Forum Comment methods====================================================>\\
 
     /**
      * Users can post a comment to a specific thread. The way it is setup right now the
@@ -71,13 +93,34 @@ public class ForumService {
        return forumCommentRepository.save(newForumPost);
     }
 
-    public ForumThread findById(String forumId) {
-      return forumThreadRepository.findById(forumId)
-        .orElseThrow(() -> new ForumThreadNotFoundException("Forum Thread Not found"));
+
+  /**
+   * Deletes a forum comment from specified thread
+   * @param req - forum comment id
+   * @param userId - user id
+   */
+  public void deleteForumComment(DeleteForumComment req, String userId)
+  {
+    User foundUser = userService.findUserById(userId).get();
+    ForumThread foundThread = forumThreadRepository.findById(req.getForumthreadId()).get();
+
+    forumCommentRepository.deleteById(req.getForumCommentId());
+
+  }
+
+
+  public ForumComment updateForumComment(String commentId, NewForumComment req, String userId) {
+
+    if (!forumCommentRepository.existsById(commentId)) {
+      throw new PlaylistNotFoundException("No playlist found");
     }
 
 
-    //public List<ForumComment> getThreadAllComments(String threadId) {
-    //return forumCommentRepository.findByThreadId(threadId);
-  //}
+    User user = userService.findUserById(userId).get();
+
+    ForumComment forumComment = new ForumComment(req.getContent(), user,forumThreadRepository.findById(req.getThreadId()).get());
+    forumComment.setId(commentId);
+
+    return forumCommentRepository.save(forumComment);
+  }
 }

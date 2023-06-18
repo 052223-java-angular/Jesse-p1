@@ -2,16 +2,19 @@ package com.revature.music.services;
 
 import com.revature.music.dtos.requests.AddSongToPlaylist;
 import com.revature.music.dtos.requests.DeletePlaylistRequest;
+import com.revature.music.dtos.requests.DeleteSongFromPlaylist;
 import com.revature.music.dtos.requests.NewPlaylistRequest;
 import com.revature.music.entities.Playlist;
 import com.revature.music.entities.Song;
 import com.revature.music.entities.User;
 import com.revature.music.repositories.PlaylistRepository;
 import com.revature.music.utils.PlaylistNotFoundException;
+import com.revature.music.utils.SongNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -94,16 +97,49 @@ public class PlaylistService {
   public Playlist addSongToPlaylist(AddSongToPlaylist req)
   {
     Song song = songService.getSongById(req.getSongId());
+    if (song == null)
+    {
+      throw new SongNotFoundException("Song does not exist in the playlist!");
+    }
 
-    Playlist playlist = playlistRepository.findById(req.getPlaylistId()).get();
+    Optional<Playlist> playlist = playlistRepository.findById(req.getPlaylistId());
+    if (playlist.isEmpty())
+    {
+      throw new PlaylistNotFoundException("Playlist does not exist!");
+    }
 
-    Set<Song> songs = playlist.getSongs();
+    Set<Song> songs = playlist.get().getSongs();
     songs.add(song);
 
-    playlist.setSongs(songs);
+    playlist.get().setSongs(songs);
 
-      return playlistRepository.save(playlist);
+      return playlistRepository.save(playlist.get());
 
   }
+  /**
+   * Deletes a song from a playlist
+   * @param req - song id and playlist id
+   * @return - success or an error
+   */
+  public void deleteSongFromPlaylist(DeleteSongFromPlaylist req)
+  {
+    Song song = songService.getSongById(req.getSongId());
+     if (song == null)
+     {
+        throw new SongNotFoundException("Song does not exist in the playlist!");
+     }
 
+    Optional<Playlist> playlist = playlistRepository.findById(req.getPlaylistId());
+     if (playlist.isEmpty())
+     {
+       throw new PlaylistNotFoundException("Playlist does not exist!");
+     }
+    Set<Song> songs = playlist.get().getSongs();
+
+    songs.remove(song);
+
+    playlist.get().setSongs(songs);
+
+    playlistRepository.save(playlist.get());
+  }
 }

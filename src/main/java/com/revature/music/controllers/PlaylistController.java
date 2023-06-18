@@ -1,9 +1,6 @@
 package com.revature.music.controllers;
 
-import com.revature.music.dtos.requests.AddSongToPlaylist;
-import com.revature.music.dtos.requests.DeletePlaylistRequest;
-import com.revature.music.dtos.requests.NewGetAllPlaylistsRequest;
-import com.revature.music.dtos.requests.NewPlaylistRequest;
+import com.revature.music.dtos.requests.*;
 import com.revature.music.entities.Playlist;
 import com.revature.music.repositories.PlaylistRepository;
 import com.revature.music.services.JwtTokenService;
@@ -96,7 +93,7 @@ public class PlaylistController {
   }
 
   /**
-   * Gets a a playlist specified by thr user
+   * Gets a playlist specified by thr user
    * @param playlistId
    * @return
    */
@@ -111,7 +108,7 @@ public class PlaylistController {
 
 
  // Update an existing playlist Will override the old one to update...Not sure if needed
-  @PatchMapping("update/{playlistId}")
+  @PatchMapping("/update/{playlistId}")
   public ResponseEntity<Playlist> updatePlaylist(@PathVariable String playlistId, @RequestBody NewPlaylistRequest req) {
 
     String userId = tokenService.extractUserId(req.getToken());
@@ -132,5 +129,19 @@ public class PlaylistController {
   {
     return ResponseEntity.status(HttpStatus.OK).body(playlistService.addSongToPlaylist(req));
   }
+
+  /**
+   * Deletes a song from a playlist
+   * @param req - song id and playlist id
+   * @return - success or an error
+   */
+  @DeleteMapping("/delete/song")
+  public ResponseEntity<?>deleteSongFromPlaylist(@RequestBody DeleteSongFromPlaylist req)
+  {
+    playlistService.deleteSongFromPlaylist(req);
+
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+
 
 }

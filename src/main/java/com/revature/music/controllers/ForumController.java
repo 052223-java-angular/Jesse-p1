@@ -1,19 +1,21 @@
 package com.revature.music.controllers;
 
 import com.revature.music.dtos.requests.*;
+import com.revature.music.dtos.responses.ForumThreadResponse;
 import com.revature.music.entities.ForumThread;
 import com.revature.music.services.ForumService;
 import com.revature.music.services.JwtTokenService;
 import com.revature.music.services.StringValidationService;
 import com.revature.music.utils.InvalidTokenException;
 import com.revature.music.utils.ResourceConflictException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin
 @AllArgsConstructor
 @RestController
 @RequestMapping("/forum")
@@ -83,9 +85,23 @@ public class ForumController {
    *
    * @return- All threads created by any user
    */
+  @CrossOrigin
   @GetMapping("/all")
-  public ResponseEntity<List<ForumThread>> getAllThreads() {
+  public ResponseEntity<List<ForumThreadResponse>> getAllThreads() {
     return ResponseEntity.status(HttpStatus.OK).body(forumService.getAllThreads());
+  }
+  @CrossOrigin
+  @GetMapping("/all/user")
+  public ResponseEntity<List<ForumThread>>getForumThreadsByUserId(HttpServletRequest req){
+
+    String token = req.getHeader("auth-token");
+    String userId = tokenService.extractUserId(token);
+    // validate token if token is valid
+    if (userId == null || userId.isEmpty()) {
+      throw new InvalidTokenException("Token is not valid!");
+    }
+    return ResponseEntity.status(HttpStatus.OK).body(forumService.getForumThreadsByUserId(userId));
+
   }
 
   /**
@@ -94,11 +110,13 @@ public class ForumController {
    * @param forumId - id
    * @return - 201 status or error status
    */
+  @CrossOrigin
   @GetMapping("/get/{forumId}")
   public ResponseEntity<ForumThread> getForumById(@PathVariable String forumId) {
     return ResponseEntity.status(HttpStatus.OK).body(forumService.findById(forumId));
   }
 
+  @CrossOrigin
   @PatchMapping("/update/{threadId}")
   public ResponseEntity<ForumThread> updateThread(@PathVariable String threadId, @RequestBody NewThreadRequest req) {
     String userId = tokenService.extractUserId(req.getToken());
@@ -117,6 +135,7 @@ public class ForumController {
    * @param req
    * @return
    */
+  @CrossOrigin
   @PostMapping("/comment")
   public ResponseEntity<?> postComment(@RequestBody NewForumComment req) {
     //Cant be empty comment validation
@@ -143,6 +162,7 @@ public class ForumController {
    * @param req - forumThreadId, ForumCommentId, token
    * @return - error or 201 status
    */
+  @CrossOrigin
   @DeleteMapping("/delete/comment")
   public ResponseEntity<?> deleteComment(@RequestBody DeleteForumComment req) {
     String userId = tokenService.extractUserId(req.getToken());
@@ -156,7 +176,7 @@ public class ForumController {
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-
+  @CrossOrigin
   @PatchMapping("/update/comment/{commentId}")
   public ResponseEntity<ForumThread> updateComment(@PathVariable String commentId, @RequestBody NewForumComment req) {
     String userId = tokenService.extractUserId(req.getToken());

@@ -14,9 +14,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Principal {
-    private String id;//in order for pulls playlists
-    private String username;// to use it on screens
-    private String role;//bypass route guarding
+    private String id;
+    private String username;
+    private String role;
     private String token;// used to authentic the user so whenever it makes requests to the backend
 
     public Principal(User user){

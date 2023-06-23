@@ -33,6 +33,9 @@ public class ForumThread {
     @Column(name = "creationDate", nullable = false)
     private Date creationDate;
 
+//    @Column(name = "username", nullable = false)
+//    private String username;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference

@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,7 +37,7 @@ public class UserService {
         // hash password
         String hashed = BCrypt.hashpw(req.getPassword(), BCrypt.gensalt());
         // create new user
-        User newUser = new User(req.getUsername(), hashed, foundRole);
+        User newUser = new User(req.getUsername(), hashed, req.getFirstname(), req.getLastname(), req.getEmail(), foundRole);
         // save and return user
         return userRepo.save(newUser);
     }
@@ -85,8 +86,16 @@ public class UserService {
         return password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
     }
 
-   public Optional<User> findUserById(String id)
+    public List<User> findAll() {
+      return userRepo.findAll();
+    }
+
+   public User findUserById(String id)
     {
-        return userRepo.findById(id);
+      Optional<User> userOpt = userRepo.findById(id);
+
+      if (userOpt.isEmpty()) throw new UserNotFoundException("User not found!");
+
+      return userOpt.get();
     }
 }

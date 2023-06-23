@@ -21,7 +21,12 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenService tokenService;
 
-    @CrossOrigin
+  /**
+   * Registers a new user
+   * @param req
+   * @return
+   */
+  @CrossOrigin
     @PostMapping("/register")//redirect, tells the front where to redirect //Can return a response entity with an object or statuscode or ? = void
     public ResponseEntity<?> registerUser(@RequestBody NewUserRequest req)//Json = Request body, its DTO, DTO comes in two forms response or Request
     {

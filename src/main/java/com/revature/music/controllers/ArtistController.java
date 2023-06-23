@@ -21,8 +21,8 @@ public class ArtistController {
     /**
      * Probably have to change once front end is built
      * Creates an artist
-     * @param req
-     * @return
+     * @param req- artist name
+     * @return - 201 or error
      */
     @PostMapping("/create")
     public ResponseEntity<?>createArtist(@RequestBody NewArtistRequest req)

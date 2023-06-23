@@ -1,8 +1,6 @@
 package com.revature.music.services;
 
 import com.revature.music.dtos.requests.AddSongToPlaylist;
-import com.revature.music.dtos.requests.DeletePlaylistRequest;
-import com.revature.music.dtos.requests.DeleteSongFromPlaylist;
 import com.revature.music.dtos.requests.NewPlaylistRequest;
 import com.revature.music.entities.Playlist;
 import com.revature.music.entities.Song;
@@ -33,7 +31,7 @@ public class PlaylistService {
      */
     public Playlist createPlaylist(NewPlaylistRequest req, String userId)
     {
-        User existingUser = userService.findUserById(userId).get();
+        User existingUser = userService.findUserById(userId);
 
         Playlist newPlaylist = new Playlist(req.getTitle(), req.getDescription(), existingUser);
 
@@ -42,15 +40,17 @@ public class PlaylistService {
 
 
     /**
+     * IMPLEMENTED
      * Delete a specific play list
      * @param req - playlist id
      */
-    public void deletePlaylist(DeletePlaylistRequest req) {
+    public void deletePlaylist(String playlistId) {
         //User existingUser = userService.findUserById(userId).get();
-        playlistRepository.deleteById(req.getPlaylistId());
+        playlistRepository.deleteById(playlistId);
     }
 
     /**
+     * IMPLEMENTED
      * Gets playlists associated with userid
      * @param userId - the userid
      * @return - All the playlist associated with the userid
@@ -86,7 +86,7 @@ public class PlaylistService {
          throw new PlaylistNotFoundException("No playlist found");
       }
 
-      User user = userService.findUserById(userId).get();
+      User user = userService.findUserById(userId);
 
       Playlist playlist = new Playlist(req.getTitle(), req.getDescription(), user);
       playlist.setId(playlistId);
@@ -121,15 +121,15 @@ public class PlaylistService {
    * @param req - song id and playlist id
    * @return - success or an error
    */
-  public void deleteSongFromPlaylist(DeleteSongFromPlaylist req)
+  public void deleteSongFromPlaylist(String songId, String playlistId)
   {
-    Song song = songService.getSongById(req.getSongId());
+    Song song = songService.getSongById(songId);
      if (song == null)
      {
         throw new SongNotFoundException("Song does not exist in the playlist!");
      }
 
-    Optional<Playlist> playlist = playlistRepository.findById(req.getPlaylistId());
+    Optional<Playlist> playlist = playlistRepository.findById(playlistId);
      if (playlist.isEmpty())
      {
        throw new PlaylistNotFoundException("Playlist does not exist!");

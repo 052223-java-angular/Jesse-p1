@@ -34,9 +34,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
     //@Column(nullable = false)
-    //private String firstName;
-    //private String lastName;
-    //private String email;
+    private String firstName;
+    private String lastName;
+    private String email;
 
 
     @ManyToOne
@@ -62,13 +62,16 @@ public class User {
      * @param password- password
      * @param role - role
      */
-    public User(String username, String password, Role role)
+    public User(String username, String password,String firstName, String lastName, String email,Role role)
     {
         this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
         this.role = role;
-        this.forumThreads = new HashSet<>();//Why are we doing a hashset here,Look into this
+        this.forumThreads = new HashSet<>();
         this.forumComments = new HashSet<>();
         this.playlists = new HashSet<>();
     }

@@ -11,6 +11,5 @@ import lombok.Setter;
 @Setter
 public class NewArtistRequest {
     private String name;
-
     private String genreName;
 }

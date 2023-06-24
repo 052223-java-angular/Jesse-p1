@@ -1,6 +1,5 @@
 package com.revature.music.controllers;
 
-import com.revature.music.dtos.requests.DeleteForumComment;
 import com.revature.music.dtos.requests.NewForumComment;
 import com.revature.music.dtos.requests.NewThreadRequest;
 import com.revature.music.entities.ForumThread;
@@ -61,6 +60,7 @@ public class ForumController {
   }
 
   /**
+   * IMPLEMENTED
    * Deletes a specific forum thread by id
    *
    * @param req - forum id, token
@@ -148,10 +148,11 @@ public class ForumController {
 //<======================================*ForumCommentMethods*====================================================>
 
   /**
+   * IMPLEMENTED
    * Posts a comment to a user thread
    *
-   * @param req
-   * @return
+   * @param req - DTO for new comment
+   * @return - 201 status or error
    */
   @CrossOrigin
   @PostMapping("/comment")
@@ -175,6 +176,7 @@ public class ForumController {
 
 
   /**
+   * IMPLEMENTED
    * Deletes a forum comment from specified thread
    *
    * @param req - forumThreadId, ForumCommentId, token
@@ -195,6 +197,13 @@ public class ForumController {
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
+  /*
+   * IMPLEMENTED
+   * Allows a user to edit a comment
+   * @param commentId - the comment to edit
+   * @param req - passing token
+   * @return - edited form comment
+   */
   @CrossOrigin
   @PatchMapping("/update/comment/{commentId}")
   public ResponseEntity<ForumThread> updateComment(@PathVariable String commentId, @RequestBody NewForumComment req) {

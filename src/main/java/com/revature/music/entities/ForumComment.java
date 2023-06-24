@@ -27,8 +27,8 @@ public class ForumComment {
     @Column(name = "creationDate", nullable = false)
     private Date creationDate;
 
-//  @Column(name = "username", nullable = false)
-//  private String username;
+   @Column(name = "username", nullable = false)
+   private String username;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -40,12 +40,13 @@ public class ForumComment {
     @JsonBackReference
     private ForumThread forumThread;
 
-    public ForumComment(String content, User user, ForumThread forumThread)
+    public ForumComment(String content, User user, String username, ForumThread forumThread)
     {
         this.id = UUID.randomUUID().toString();
         this.content = content;
         this.creationDate = new Date();
         this.user = user;
+        this.username = username;
         this.forumThread = forumThread;
     }
 }

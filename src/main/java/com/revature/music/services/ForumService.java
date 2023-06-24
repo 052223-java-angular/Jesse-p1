@@ -1,10 +1,7 @@
 package com.revature.music.services;
 
-import com.revature.music.dtos.requests.DeleteForumComment;
-import com.revature.music.dtos.requests.DeleteForumThread;
 import com.revature.music.dtos.requests.NewForumComment;
 import com.revature.music.dtos.requests.NewThreadRequest;
-import com.revature.music.dtos.responses.ForumThreadResponse;
 import com.revature.music.entities.ForumComment;
 import com.revature.music.entities.ForumThread;
 import com.revature.music.entities.User;
@@ -17,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,7 +33,7 @@ public class ForumService {
     public ForumThread createThread(NewThreadRequest req, String id) {
 
         User existingUser = userService.findUserById(id);
-        ForumThread newThread = new ForumThread(req.getTitle(), req.getDescription(), existingUser);
+        ForumThread newThread = new ForumThread(req.getTitle(), req.getDescription(), existingUser, existingUser.getUsername());
         logger.info( existingUser.getUsername() + ": creating a new thread: " + newThread.getId());
         return forumThreadRepository.save(newThread);
     }
@@ -49,9 +45,10 @@ public class ForumService {
 
   /**
    * Returns all the forum threads posted by users
+   *
    * @return
    */
-  public List<ForumThreadResponse> getAllThreads()
+  public List<ForumThread> getAllThreads()
     {
 //      List<ForumThreadResponse> forumThreadResponses = new ArrayList<>();
 //      List<ForumThread> forumThreads = forumThreadRepository.findAll();
@@ -67,12 +64,13 @@ public class ForumService {
    * Deletes a specific forum thread by id
    * @param req
    */
-  public void deleteForumThread(DeleteForumThread req){
-      forumThreadRepository.deleteById(req.getForumthreadId());
+  public void deleteForumThread(String forumThreadId){
+    forumCommentRepository.deleteAllByForumThreadId(forumThreadId);
+    forumThreadRepository.deleteById(forumThreadId);
   }
 
-  public ForumThread findById(String forumId) {
-    return forumThreadRepository.findById(forumId)
+  public ForumThread findById(String forumThreadId) {
+    return forumThreadRepository.findById(forumThreadId)
       .orElseThrow(() -> new ForumThreadNotFoundException("Forum Thread Not found"));
   }
 
@@ -83,7 +81,8 @@ public class ForumService {
 
     User user = userService.findUserById(userId);
 
-    ForumThread forumThread = new ForumThread(req.getTitle(), req.getDescription(), user);
+
+    ForumThread forumThread = new ForumThread(req.getTitle(), req.getDescription(), user, user.getUsername());
     forumThread.setId(threadId);
 
     return forumThreadRepository.save(forumThread);
@@ -102,7 +101,7 @@ public class ForumService {
     {
         User foundUser = userService.findUserById(userId);
         ForumThread foundThread = forumThreadRepository.findById(req.getThreadId()).get();
-        ForumComment newForumPost = new ForumComment(req.getContent(),foundUser, foundThread);
+        ForumComment newForumPost = new ForumComment(req.getContent(),foundUser, foundUser.getUsername(), foundThread);
       logger.info( foundUser.getUsername() + ": Posting a comment: " + newForumPost.getContent() + "to thread :" + foundThread.getId());
        return forumCommentRepository.save(newForumPost);
     }
@@ -113,12 +112,12 @@ public class ForumService {
    * @param req - forum comment id
    * @param userId - user id
    */
-  public void deleteForumComment(DeleteForumComment req, String userId)
+  public void deleteForumComment(String commentId, String userId)
   {
     User foundUser = userService.findUserById(userId);
-    ForumThread foundThread = forumThreadRepository.findById(req.getForumthreadId()).get();
+   // ForumThread foundThread = forumThreadRepository.findById(req.getForumthreadId()).get();
 
-    forumCommentRepository.deleteById(req.getForumCommentId());
+    forumCommentRepository.deleteById(commentId);
 
   }
 
@@ -138,7 +137,7 @@ public class ForumService {
 
     User user = userService.findUserById(userId);
 
-    ForumComment forumComment = new ForumComment(req.getContent(), user,forumThreadRepository.findById(req.getThreadId()).get());
+    ForumComment forumComment = new ForumComment(req.getContent(), user, user.getUsername(),forumThreadRepository.findById(req.getThreadId()).get());
     forumComment.setId(commentId);
 
     return forumCommentRepository.save(forumComment);

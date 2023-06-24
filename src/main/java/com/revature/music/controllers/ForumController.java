@@ -1,7 +1,8 @@
 package com.revature.music.controllers;
 
-import com.revature.music.dtos.requests.*;
-import com.revature.music.dtos.responses.ForumThreadResponse;
+import com.revature.music.dtos.requests.DeleteForumComment;
+import com.revature.music.dtos.requests.NewForumComment;
+import com.revature.music.dtos.requests.NewThreadRequest;
 import com.revature.music.entities.ForumThread;
 import com.revature.music.services.ForumService;
 import com.revature.music.services.JwtTokenService;
@@ -65,9 +66,11 @@ public class ForumController {
    * @param req - forum id, token
    * @return - error status or 201 status
    */
-  @DeleteMapping("/delete")
-  public ResponseEntity<?> deleteForumThread(@RequestBody DeleteForumThread req) {
-    String userId = tokenService.extractUserId(req.getToken());
+  @CrossOrigin
+  @DeleteMapping("/delete/{forumThreadId}")
+  public ResponseEntity<?> deleteForumThread(@PathVariable String forumThreadId , HttpServletRequest req) {
+    String token = req.getHeader("auth-token");
+    String userId = tokenService.extractUserId(token);
     // validate token if token is valid
     if (userId == null || userId.isEmpty()) {
       throw new InvalidTokenException("Token is not valid!");
@@ -75,21 +78,28 @@ public class ForumController {
 
     //validate the forum exists
 
-    forumService.deleteForumThread(req);
+    forumService.deleteForumThread(forumThreadId);
 
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   /**
+   * IMPLEMENTED
    * This method returns all thread posts made by any user
    *
    * @return- All threads created by any user
    */
   @CrossOrigin
   @GetMapping("/all")
-  public ResponseEntity<List<ForumThreadResponse>> getAllThreads() {
+  public ResponseEntity<List<ForumThread>> getAllThreads() {
     return ResponseEntity.status(HttpStatus.OK).body(forumService.getAllThreads());
   }
+
+  /**
+   * User can get all their form threads
+   * @param req
+   * @return
+   */
   @CrossOrigin
   @GetMapping("/all/user")
   public ResponseEntity<List<ForumThread>>getForumThreadsByUserId(HttpServletRequest req){
@@ -105,6 +115,7 @@ public class ForumController {
   }
 
   /**
+   * IMPLEMENTED
    * Get a specified forum
    *
    * @param forumId - id
@@ -116,6 +127,13 @@ public class ForumController {
     return ResponseEntity.status(HttpStatus.OK).body(forumService.findById(forumId));
   }
 
+  /**
+   * IMPLEMENTED
+   * User can update a form thread
+   * @param threadId
+   * @param req
+   * @return
+   */
   @CrossOrigin
   @PatchMapping("/update/{threadId}")
   public ResponseEntity<ForumThread> updateThread(@PathVariable String threadId, @RequestBody NewThreadRequest req) {
@@ -130,7 +148,7 @@ public class ForumController {
 //<======================================*ForumCommentMethods*====================================================>
 
   /**
-   * How would the user pick which thread they are commenting on the thread id needs to be passed in
+   * Posts a comment to a user thread
    *
    * @param req
    * @return
@@ -163,15 +181,16 @@ public class ForumController {
    * @return - error or 201 status
    */
   @CrossOrigin
-  @DeleteMapping("/delete/comment")
-  public ResponseEntity<?> deleteComment(@RequestBody DeleteForumComment req) {
-    String userId = tokenService.extractUserId(req.getToken());
+  @DeleteMapping("/delete/comment/{commentId}")
+  public ResponseEntity<?> deleteComment( @PathVariable String commentId,HttpServletRequest req) {
+    String token = req.getHeader("auth-token");
+    String userId = tokenService.extractUserId(token);
     // validate token if token is valid
     if (userId == null || userId.isEmpty()) {
       throw new InvalidTokenException("Token is not valid!");
     }
 
-    forumService.deleteForumComment(req, userId);
+    forumService.deleteForumComment(commentId, userId);
 
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }

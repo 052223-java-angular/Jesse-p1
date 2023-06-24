@@ -33,8 +33,8 @@ public class ForumThread {
     @Column(name = "creationDate", nullable = false)
     private Date creationDate;
 
-//    @Column(name = "username", nullable = false)
-//    private String username;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -46,11 +46,12 @@ public class ForumThread {
     private Set<ForumComment> forumComments;
 
 
-    public ForumThread(String title, String description, User user)
+    public ForumThread(String title, String description, User user, String username)
     {
         this.id = UUID.randomUUID().toString();
         this.title = title;
         this.description = description;
+        this.username= username;
         this.user = user;
         this.creationDate = new Date();
         this.forumComments = new HashSet<>();

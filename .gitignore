@@ -26,3 +26,9 @@ replay_pid*
 *.settings/
 *.classpath
 *.project
+
+*target/
+*.properties
+*.DS_Store
+src/main/resources/app.log
+

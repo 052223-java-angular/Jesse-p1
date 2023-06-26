@@ -25,11 +25,13 @@ public class ForumController {
   private final JwtTokenService tokenService;
 
   /**
+   * IMPLEMENTED
    * A user can create a thread
    *
    * @param req -
    * @return - status 201 or error
    */
+  @CrossOrigin
   @PostMapping("/create")
   public ResponseEntity<?> createThread(@RequestBody NewThreadRequest req) {
     //Cant be blank Title

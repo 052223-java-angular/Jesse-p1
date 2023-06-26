@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewSongRequest {
+  private String id;
     private String title;
     private float duration;
     private String genreName;

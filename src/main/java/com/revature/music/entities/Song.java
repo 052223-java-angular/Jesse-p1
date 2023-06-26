@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -23,25 +21,24 @@ public class Song {
     private String title;
     private float duration;
 
+    @Column(name="name", nullable = false)
+    private String name;
 
 
-    @ManyToOne()
-    @JoinColumn(name = "genre_id")
-    @JsonBackReference
-    private Genre genre;
 
     @ManyToOne()
     @JoinColumn(name = "artist_id")
     @JsonBackReference
     private Artist artist;
 
-    public Song(String title, float duration, Artist artist, Genre genre)
+    public Song(String id, String title, float duration, Artist artist, String name)
     {
-       this.id = UUID.randomUUID().toString();
+       this.id = id;
        this.title = title;
        this.duration = duration;
        this.artist = artist;
-       this.genre = genre;
+       this.name = name;
+
 
     }
 }

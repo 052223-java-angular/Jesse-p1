@@ -81,9 +81,14 @@ public class ForumService {
 
     User user = userService.findUserById(userId);
 
-
-    ForumThread forumThread = new ForumThread(req.getTitle(), req.getDescription(), user, user.getUsername());
-    forumThread.setId(threadId);
+    ForumThread forumThread = forumThreadRepository.findById(threadId)
+      .orElseThrow(() -> new ForumThreadNotFoundException("No thread found"));
+//    ForumThread forumThread = new ForumThread(req.getTitle(), req.getDescription(), user, user.getUsername());
+//    forumThread.setId(threadId);
+    forumThread.setTitle(req.getTitle());
+    forumThread.setDescription(req.getDescription());
+    forumThread.setUser(user);
+    forumThread.setUsername(user.getUsername());
 
     return forumThreadRepository.save(forumThread);
   }

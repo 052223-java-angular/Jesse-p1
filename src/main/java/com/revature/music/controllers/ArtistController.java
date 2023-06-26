@@ -5,10 +5,7 @@ import com.revature.music.services.ArtistService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/artist")
@@ -24,10 +21,11 @@ public class ArtistController {
      * @param req- artist name
      * @return - 201 or error
      */
+    @CrossOrigin
     @PostMapping("/create")
     public ResponseEntity<?>createArtist(@RequestBody NewArtistRequest req)
     {
-        artistService.createSong(req.getName(), req.getGenreName());
+        artistService.createSong(req.getId(),req.getName(), req.getGenreName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }

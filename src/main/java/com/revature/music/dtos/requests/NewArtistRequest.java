@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewArtistRequest {
+  private String id;
     private String name;
     private String genreName;
 }

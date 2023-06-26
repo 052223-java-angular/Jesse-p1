@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/playlist")
@@ -135,7 +135,7 @@ public class PlaylistController {
    * @param req
    * @return
    */
-  @CrossOrigin
+  @CrossOrigin()
   @PostMapping("/add/song")
   public ResponseEntity<Playlist>addSongToPlaylist(@RequestBody AddSongToPlaylist req)
   {

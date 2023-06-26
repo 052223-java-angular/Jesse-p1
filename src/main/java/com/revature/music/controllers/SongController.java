@@ -1,15 +1,11 @@
 package com.revature.music.controllers;
 
 import com.revature.music.dtos.requests.NewSongRequest;
-import com.revature.music.repositories.SongRepository;
 import com.revature.music.services.SongService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/song")
@@ -17,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SongController {
 
     private SongService songService;
-    private SongRepository songRepository;
+    @CrossOrigin
     @PostMapping("/create")
     public ResponseEntity<?>createSong(@RequestBody NewSongRequest req)
     {
-        songService.createSong(req.getTitle(),req.getDuration(),req.getName(),req.getGenreName());
+        songService.createSong(req.getId(),req.getTitle(),req.getDuration(),req.getName(),req.getGenreName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }

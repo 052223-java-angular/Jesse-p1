@@ -1,20 +1,20 @@
 package com.revature.music.services;
 
 import com.revature.music.entities.Artist;
-import com.revature.music.entities.Genre;
 import com.revature.music.entities.Song;
 import com.revature.music.repositories.ArtistRepository;
-import com.revature.music.repositories.GenreRepository;
 import com.revature.music.repositories.SongRepository;
 import com.revature.music.utils.SongNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class SongService {
     private SongRepository songRepository;
-    private GenreRepository genreRepository;
+
     private ArtistRepository artistRepository;
 
     /**
@@ -25,13 +25,22 @@ public class SongService {
      * @param artist
      * @param genre
      */
-    public void createSong(String title, float duration, String name, String genreName)
+    public void createSong(String id, String title, float duration, String name, String genreName)
     { //validate that these are in DB if not create
-       Genre genre = genreRepository.findByName(genreName);
-       Artist artist = artistRepository.findByName(name);
 
-       Song song = new Song(title, duration, artist, genre);
-       songRepository.save(song);
+       Artist artist = artistRepository.findByName(name);
+       Optional<Song> existingSong = songRepository.findById(id);
+
+       if(existingSong.isPresent())
+       {
+         existingSong.get().setTitle(title);
+         existingSong.get().setDuration(duration);
+         songRepository.save(existingSong.get());
+       }
+      {
+        Song song = new Song(id, title, duration, artist, artist.getName());
+        songRepository.save(song);
+      }
     }
 
     public Song getSongById(String songId)

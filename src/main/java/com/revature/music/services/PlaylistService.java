@@ -88,8 +88,12 @@ public class PlaylistService {
 
       User user = userService.findUserById(userId);
 
-      Playlist playlist = new Playlist(req.getTitle(), req.getDescription(), user);
-      playlist.setId(playlistId);
+      Playlist playlist = playlistRepository.findById(playlistId)
+        .orElseThrow(() -> new PlaylistNotFoundException("No playlist found")); // Fetch the existing playlist from the database
+
+      playlist.setTitle(req.getTitle()); // Update the title
+      playlist.setDescription(req.getDescription()); // Update the description
+      playlist.setUser(user); // Update the user if necessary
 
       return playlistRepository.save(playlist);
     }
@@ -97,7 +101,7 @@ public class PlaylistService {
   public Playlist addSongToPlaylist(AddSongToPlaylist req)
   {
     Song song = songService.getSongById(req.getSongId());
-    if (song == null)
+   if (song == null)
     {
       throw new SongNotFoundException("Song does not exist in the playlist!");
     }
